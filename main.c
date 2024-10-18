@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <conio.h>
 #include "funciones.h"
 
 int main() {
@@ -13,7 +12,7 @@ int main() {
     Promedio(precios, cantidad);
     Busqueda(productos, precios, cantidad);
     
-
-    getch();
     return 0;
 }
+
+
