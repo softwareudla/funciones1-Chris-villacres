@@ -2,9 +2,9 @@
 #include "funciones.h"
 
 int main() {
-    char productos[10][20];
-    float precios[10];
-    int cantidad = 10; 
+    char productos[MAX_PRODUCTOS][20];
+    float precios[MAX_PRODUCTOS];
+    int cantidad = CantidadProductos();
 
     ingresarproductos(productos, precios, cantidad);
     Lista(productos, precios, cantidad);

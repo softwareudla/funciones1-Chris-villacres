@@ -3,8 +3,20 @@
 #include <string.h>
 #include "funciones.h"
 
+int CantidadProductos() {
+    int cantidad;
+    do {
+        printf("Ingrese la cantidad de productos (maximo %d): ", MAX_PRODUCTOS);
+        scanf("%d", &cantidad);
+        getchar(); 
+        if (cantidad < 1 || cantidad > MAX_PRODUCTOS) {
+            printf("Numero invalido. Debe estar entre 1 y %d.\n", MAX_PRODUCTOS);
+        }
+    } while (cantidad < 1 || cantidad > MAX_PRODUCTOS);
+    return cantidad;
+}
 
-void ingresarproductos(char productos[][20], float precios[], int cantidad) {
+void ingresarproductos(char productos[10][20], float precios[10], int cantidad) {
     for (int i = 0; i < cantidad; i++) {
         printf("Nombre del producto %d: ", i + 1);
         fgets(productos[i], 20, stdin);
@@ -23,7 +35,7 @@ void ingresarproductos(char productos[][20], float precios[], int cantidad) {
 }
 
 
-void Lista(char productos[][20], float precios[], int cantidad) {
+void Lista(char productos[10][20], float precios[10], int cantidad) {
     printf("\nProductos y sus precios:\n");
     for (int i = 0; i < cantidad; i++) {
         printf("%s : %.2f\n", productos[i], precios[i]);
@@ -31,7 +43,7 @@ void Lista(char productos[][20], float precios[], int cantidad) {
 }
 
 
-void OpeInventario(char productos[][20], float precios[], int cantidad) {
+void OpeInventario(char productos[10][20], float precios[], int cantidad) {
     float suma = 0, pmayor = precios[0], pmenor = precios[0];
     int Mascaro = 0, Masbarato = 0;
 
@@ -52,7 +64,7 @@ void OpeInventario(char productos[][20], float precios[], int cantidad) {
     printf("Total del inventario: %.2f\n", suma);
 }
 
-void Promedio (float precios[], int cantidad) {
+void Promedio (float precios[10], int cantidad) {
     float suma = 0, total = 0;
   for (int i = 0; i < cantidad; i++) {
         suma += precios[i];
@@ -61,7 +73,7 @@ void Promedio (float precios[], int cantidad) {
     printf("Precio promedio de los productos: %.2f\n", total);
 }
 
-void Busqueda(char productos[][20], float precios[], int cantidad) {
+void Busqueda(char productos[10][20], float precios[10], int cantidad) {
     char BuscarNom[20];
     int encontrado = 0;
 
