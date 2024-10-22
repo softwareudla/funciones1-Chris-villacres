@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <string.h>
 #include "funciones.h"
@@ -16,7 +15,7 @@ int CantidadProductos() {
     return cantidad;
 }
 
-void ingresarproductos(char productos[10][20], float precios[10], int cantidad) {
+void ingresarproductos(char productos[MAX_PRODUCTOS][20], float precios[MAX_PRODUCTOS], int cantidades[MAX_PRODUCTOS], int cantidad) {
     for (int i = 0; i < cantidad; i++) {
         printf("Nombre del producto %d: ", i + 1);
         fgets(productos[i], 20, stdin);
@@ -26,29 +25,37 @@ void ingresarproductos(char productos[10][20], float precios[10], int cantidad) 
             printf("Ingrese el precio del producto %s: ", productos[i]);
             resultado = scanf("%f", &precios[i]);
             if (resultado != 1) {
-                printf("Eror.Ingrese un número.\n"); 
+                printf("Error. Ingrese un número.\n"); 
                 while (getchar() != '\n'); 
             }
         } while (resultado != 1);
         getchar(); 
+
+        do {
+            printf("Ingrese la cantidad del producto %s: ", productos[i]);
+            resultado = scanf("%d", &cantidades[i]);
+            if (resultado != 1 || cantidades[i] < 1) {
+                printf("Error. Ingrese un número positivo.\n"); 
+                while (getchar() != '\n'); 
+            }
+        } while (resultado != 1 || cantidades[i] < 1);
+        getchar();
     }
 }
 
-
-void Lista(char productos[10][20], float precios[10], int cantidad) {
-    printf("\nProductos y sus precios:\n");
+void Lista(char productos[MAX_PRODUCTOS][20], float precios[MAX_PRODUCTOS], int cantidades[MAX_PRODUCTOS], int cantidad) {
+    printf("\nProductos, precios y cantidades:\n");
     for (int i = 0; i < cantidad; i++) {
-        printf("%s : %.2f\n", productos[i], precios[i]);
+        printf("%s : %.2f (Cantidad: %d)\n", productos[i], precios[i], cantidades[i]);
     }
 }
 
-
-void OpeInventario(char productos[10][20], float precios[], int cantidad) {
+void OpeInventario(char productos[MAX_PRODUCTOS][20], float precios[], int cantidades[], int cantidad) {
     float suma = 0, pmayor = precios[0], pmenor = precios[0];
     int Mascaro = 0, Masbarato = 0;
 
     for (int i = 0; i < cantidad; i++) {
-        suma += precios[i];
+        suma += precios[i] * cantidades[i]; 
         if (precios[i] > pmayor) {
             pmayor = precios[i];
             Mascaro = i;
@@ -64,26 +71,24 @@ void OpeInventario(char productos[10][20], float precios[], int cantidad) {
     printf("Total del inventario: %.2f\n", suma);
 }
 
-void Promedio (float precios[10], int cantidad) {
-    float suma = 0, total = 0;
-  for (int i = 0; i < cantidad; i++) {
+void Promedio(float precios[MAX_PRODUCTOS], int cantidad) {
+    float suma = 0;
+    for (int i = 0; i < cantidad; i++) {
         suma += precios[i];
-        total= suma/cantidad; 
-    } 
-    printf("Precio promedio de los productos: %.2f\n", total);
+    }
+    printf("Precio promedio de los productos: %.2f\n", suma / cantidad);
 }
 
-void Busqueda(char productos[10][20], float precios[10], int cantidad) {
+void Busqueda(char productos[MAX_PRODUCTOS][20], float precios[MAX_PRODUCTOS], int cantidades[MAX_PRODUCTOS], int cantidad) {
     char BuscarNom[20];
     int encontrado = 0;
 
     printf("\nIngrese el nombre del producto que busca: ");
     fgets(BuscarNom, 20, stdin);
-   
 
     for (int i = 0; i < cantidad; i++) {
         if (strcmp(productos[i], BuscarNom) == 0) {
-            printf("El precio del producto '%s' es: %.2f\n", productos[i], precios[i]);
+            printf("El precio del producto '%s' es: %.2f (Cantidad: %d)\n", productos[i], precios[i], cantidades[i]);
             encontrado = 1;
             break;
         }
